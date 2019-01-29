@@ -18,6 +18,7 @@ export const Favorite = styled.div`
   text-align: center;
   margin: 10px;
   position: relative;
+  flex-wrap: wrap;
 
   small {
     color: #666;
@@ -28,49 +29,43 @@ export const Favorite = styled.div`
     text-align: center;
     align-items: center;
     margin-bottom: 20px;
+    flex-wrap: wrap;
   }
+
   img {
     width: 70px;
     margin-bottom: 5px;
   }
+
   ul {
     list-style: none;
+
     li {
       margin-bottom: 5px;
       padding: 10px;
+
       &:last-child {
         margin: 0;
       }
+
       &:nth-child(odd) {
         background: rgb(240, 243, 247);
       }
     }
   }
-  button,
-  a {
+
+  button{
     position: absolute;
     width: 30px;
     height: 30px;
-    color: white;
     border: 0;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .update {
     right: 3px;
     top: 3px;
-    background: rgb(105, 192, 34);
-  }
-  .delete {
-    right: 3px;
-    top: 36px;
-    background: rgb(236, 54, 8);
-  }
-  .link {
-    right: 3px;
-    top: 69px;
-    background: dodgerblue;
+    background: rgb(240, 243, 247);
+    border-radius: 3px;
   }
 `;

@@ -1,5 +1,7 @@
 import React, { Fragment, Component } from 'react';
 
+import {NavStyle,Icons} from './style';
+
 class Nav extends Component {
 
   state = {
@@ -21,11 +23,16 @@ class Nav extends Component {
   render ()  {
     return(
       <Fragment>
-        <header>
-          <span>{this.state.favoritesLenght}</span>
-        </header>
+        <NavStyle>
+          <h3>Você tem {this.state.favoritesLenght} favoritos.</h3>
+        </NavStyle>
+        <Icons>
+          <p><i className="fas fa-heart color"></i> Favorite</p>
+          <p><i style={{color: "green"}} className="fa fa-hammer" /> Update</p>
+          <p><i style={{color: "red"}} className="fa fa-bug" /> Delete</p>
+          <p><i style={{color: "dodgerblue"}} className="fas fa-anchor" /> Link</p>
+        </Icons>
       </Fragment>
-
     )
 
   }

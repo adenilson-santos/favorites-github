@@ -4,6 +4,8 @@ import api from '../../services/api';
 
 import RepoList from '../../components/RepoList';
 
+import { Container } from './style';
+
 export default class Main extends React.Component {
 
   state = {
@@ -42,11 +44,13 @@ export default class Main extends React.Component {
 
     return (
       <Fragment>
-        <form onSubmit={this.handleUser}>
-          <input onChange={e => this.setState({inputUser: e.target.value})} value={inputUser}/>
-          <button type='submit'> >> </button>
-        </form>
-        {error ? <span>{error}</span> : null}
+        <Container>
+          <form onSubmit={this.handleUser}>
+            <input onChange={e => this.setState({inputUser: e.target.value})} value={inputUser}/>
+            <button type='submit'> <i class="fa fa-angle-double-right"></i> </button>
+          </form>
+          {error ? <span>{error}</span> : null}
+        </Container>
         <RepoList repos={repositories} user={user} />
       </Fragment>
     )

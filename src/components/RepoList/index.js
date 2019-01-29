@@ -1,4 +1,9 @@
 import React, {Component, Fragment } from 'react';
+import moment from 'moment';
+
+import { Container, Favorite } from './style';
+
+moment.locale('pt-br');
 
 export default class RepoList extends Component {
 
@@ -19,24 +24,56 @@ export default class RepoList extends Component {
 
     const { repos, user } = this.props;
 
-    return (<Fragment>
-      <div>
+    return (
+      <Container>
         <header key={user.id}>
           <img src={user.avatar_url } alt={user.name} />
           <strong>{user.login}</strong>
           <small>{user.html_url}</small>
         </header>
-        {repos.map(repo => (
-          <div key={repo.id} >
-            <ul>
-              <li>{repo.name}</li>
-              <li>{repo.full_name}</li>
-            </ul>
-            <button onClick={() => this.saveRepo(repo.full_name)}><i className="fas fa-heart"></i></button>
-          </div>
-        ))}
-      </div>
-    </Fragment>
+      {repos.map(favorite => (
+        <Favorite key={favorite.id}>
+          <header>
+            <strong>{favorite.name}</strong>
+            <small>{favorite.full_name}</small>
+          </header>
+
+          <ul>
+            <li>
+              {favorite.stargazers_count}
+              {' '}
+              <small>stars</small>
+            </li>
+            <li>
+              {favorite.forks}
+              {' '}
+              <small>forks</small>
+            </li>
+            <li>
+              {favorite.open_issues_count}
+              {' '}
+              <small>issues</small>
+            </li>
+            <li>
+              {moment(favorite.updated_at).fromNow()}
+              {' '}
+              <small>last commit</small>
+            </li>
+            <li>
+              {favorite.language}
+              {' '}
+              <small>language</small>
+            </li>
+          </ul>
+          <button
+            title="Favoritas"
+            onClick={() => this.saveRepo(favorite.full_name)}
+          >
+            <i style={{color:"red"}}className="fas fa-heart" />
+          </button>
+        </Favorite>
+      ))}
+    </Container>
   )}
 }
 

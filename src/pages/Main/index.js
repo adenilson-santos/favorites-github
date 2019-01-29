@@ -10,7 +10,8 @@ export default class Main extends React.Component {
     inputUser: '',
     error: null,
     repositories: [],
-    user: {}
+    user: {},
+    reposLenght: 0
   }
 
   handleUser = async (e) => {

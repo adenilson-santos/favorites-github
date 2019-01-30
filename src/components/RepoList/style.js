@@ -2,10 +2,34 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  align-items:center;
   margin-top: 20px;
   flex-wrap: wrap;
+
+  section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  flex-wrap: wrap;
+  }
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  padding: 10px;
+
+  small {
+    color: #666;
+  }
+
+  img {
+    max-width: 80px;
+    max-height: 80px;
+  }
+
+}
 `;
 
 export const Favorite = styled.div`

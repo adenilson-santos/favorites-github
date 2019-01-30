@@ -26,11 +26,12 @@ export default class RepoList extends Component {
 
     return (
       <Container>
-        <header key={user.id}>
+        <header key={user.id} className="head">
           <img src={user.avatar_url } alt={user.name} />
           <strong>{user.login}</strong>
           <small>{user.html_url}</small>
         </header>
+      <section>
       {repos.map(favorite => (
         <Favorite key={favorite.id}>
           <header>
@@ -39,6 +40,7 @@ export default class RepoList extends Component {
           </header>
 
           <ul>
+            {/* <li>{favorite.description} <small>description</small></li> */}
             <li>
               {favorite.stargazers_count}
               {' '}
@@ -73,6 +75,7 @@ export default class RepoList extends Component {
           </button>
         </Favorite>
       ))}
+      </section>
     </Container>
   )}
 }

@@ -24,6 +24,19 @@ export default class Favorites extends Component {
 
   }
 
+  handleDelete = (name) => {
+    const newRepos =this.state.favorites.filter(favorite =>
+      favorite.full_name !==  name
+    );
+      //Verificar como vai ficar guardado no localStorage pois antes ele é colocado apenas o nome.
+      //Aqui em baixo foi colocado cada objeto inteiro.
+    this.setState({favorites: newRepos}, () => localStorage.setItem('@myrepos:Favorites', JSON.stringify(newRepos)))
+  }
+
+  handleUpdate = () => {
+
+  }
+
   notifyDelete = () => toast.warn("Warning Notification !");
   notifyUpdate = () => toast.info("Info Notification !");
 
@@ -72,10 +85,12 @@ export default class Favorites extends Component {
             <button
               title="Atualizar"
               className="update"
+              onClick={this.handleUpdate}
             >
               <i className="fa fa-hammer" />
             </button>
-            <button title="Apagar"  className="delete">
+            <button title="Apagar"  className="delete"
+              onClick={() => this.handleDelete(favorite.full_name)}>
               <i className="fa fa-bug" />
             </button>
             <a

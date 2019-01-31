@@ -14,7 +14,7 @@ export default class RepoList extends Component {
     // myFavorites: JSON.parse(localStorage.getItem('@myrepos:Favorites'))
   }
 
-  notifyFavorite = (repository) => toast.success(`${repository} adicionado aos seus Favoritos.`)
+  notifyFavorite = (repository) => toast.success(`${repository} adicionado aos seus favoritos.`)
 
   componentDidMount() {
     this.setState({favorites : JSON.parse(localStorage.getItem('@myrepos:Favorites')) || []})
@@ -22,7 +22,10 @@ export default class RepoList extends Component {
 
   saveRepo  = (name)  => {
     this.setState({ favorites: [...this.state.favorites, name] }, () => localStorage.setItem('@myrepos:Favorites', JSON.stringify(this.state.favorites) ))
-    this.notifyFavorite(name);
+    console.log(name);
+
+    const [, newName] = name.split('/');
+    this.notifyFavorite(newName);
   }
 
   render (){

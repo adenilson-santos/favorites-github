@@ -22,7 +22,8 @@ export const Icons = styled.div`
   }
 
   .color{
-    animation: colors 0.5s ease infinite;
+    color: #666;
+    /* animation: colors 0.5s ease infinite; */
   }
 
   @keyframes colors {

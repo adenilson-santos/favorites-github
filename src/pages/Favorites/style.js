@@ -32,6 +32,7 @@ export const Favorite = styled.div`
   img {
     width: 70px;
     margin-bottom: 5px;
+    border-radius: 3px;
   }
   ul {
     list-style: none;
@@ -69,8 +70,8 @@ export const Favorite = styled.div`
     background: rgb(236, 54, 8);
   }
   .link {
-    right: 3px;
-    top: 69px;
-    background: dodgerblue;
+    color:dodgerblue;
+    left: 3px;
+    top: 3px;
   }
 `;

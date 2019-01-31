@@ -1,4 +1,6 @@
-import React, { Fragment, Component} from 'react';
+import React, { Component} from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import api from '../../services/api';
 import moment from 'moment';
@@ -22,12 +24,16 @@ export default class Favorites extends Component {
 
   }
 
+  notifyDelete = () => toast.warn("Warning Notification !");
+  notifyUpdate = () => toast.info("Info Notification !");
+
   render(){
 
     const { favorites } = this.state;
 
     return (
       <Container>
+      <ToastContainer />
         {favorites.map(favorite => (
           <Favorite key={favorite.id}>
             <header>

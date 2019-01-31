@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
         -webkit-font-smoothing: antialiased !important;
         background: rgb(233, 236, 240);
         font-family: Arial, Helvetica, sans-serif;
+        margin-bottom: 50px;
     }
 `;
 

@@ -11,25 +11,43 @@ export const Container = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
-  flex-wrap: wrap;
+    flex-wrap: wrap;
   }
 
-.head {
-  display: flex;
-  flex-direction: column;
-  align-items:center;
-  padding: 10px;
+  .head {
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    padding: 10px;
+    max-width: 90%;
+    background: white;
+    border-radius: 3px;
+    flex-wrap: wrap;
 
-  small {
-    color: #666;
+    img {
+      max-width: 80px;
+      max-height: 80px;
+      margin-right: 10px;
+    }
+
+    div{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 10px;
+
+      small {
+        color: #666;
+      }
+    }
+
+    .user_info {
+      background: rgb(240, 243, 247);
+      padding: 5px;
+      border-radius: 3px;
+    }
   }
-
-  img {
-    max-width: 80px;
-    max-height: 80px;
-  }
-
-}
 `;
 
 export const Favorite = styled.div`
@@ -47,6 +65,7 @@ export const Favorite = styled.div`
   small {
     color: #666;
   }
+
   header {
     display: flex;
     flex-direction: column;
@@ -54,6 +73,11 @@ export const Favorite = styled.div`
     align-items: center;
     margin-bottom: 20px;
     flex-wrap: wrap;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+    padding: 0 20px;
   }
 
   img {
@@ -91,5 +115,21 @@ export const Favorite = styled.div`
     top: 3px;
     background: rgb(240, 243, 247);
     border-radius: 3px;
+  }
+  a {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    color: dodgerblue;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .link {
+    left: 3px;
+    top: 3px;
+    /* background: dodgerblue; */
   }
 `;

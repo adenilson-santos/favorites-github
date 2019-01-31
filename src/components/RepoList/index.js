@@ -1,5 +1,7 @@
-import React, {Component, Fragment } from 'react';
+import React, {Component } from 'react';
 import moment from 'moment';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Container, Favorite } from './style';
 
@@ -8,8 +10,11 @@ moment.locale('pt-br');
 export default class RepoList extends Component {
 
   state = {
-    favorites: []
+    favorites: [],
+    // myFavorites: JSON.parse(localStorage.getItem('@myrepos:Favorites'))
   }
+
+  notifyFavorite = (repository) => toast.success(`${repository} adicionado aos seus Favoritos.`)
 
   componentDidMount() {
     this.setState({favorites : JSON.parse(localStorage.getItem('@myrepos:Favorites')) || []})
@@ -17,7 +22,7 @@ export default class RepoList extends Component {
 
   saveRepo  = (name)  => {
     this.setState({ favorites: [...this.state.favorites, name] }, () => localStorage.setItem('@myrepos:Favorites', JSON.stringify(this.state.favorites) ))
-
+    this.notifyFavorite(name);
   }
 
   render (){
@@ -25,11 +30,23 @@ export default class RepoList extends Component {
     const { repos, user } = this.props;
 
     return (
+      user ?
       <Container>
+        <ToastContainer/>
         <header key={user.id} className="head">
           <img src={user.avatar_url } alt={user.name} />
-          <strong>{user.login}</strong>
-          <small>{user.html_url}</small>
+          <div>
+            <strong>{user.login}</strong>
+            <small>{user.html_url}</small>
+          </div>
+          {/* <div className="user_info">
+            <p>
+              {user.blog} <small>blog</small>
+            </p>
+            <p>
+              {user.company} <small>company</small>
+            </p>
+          </div> */}
         </header>
       <section>
       {repos.map(favorite => (
@@ -71,12 +88,21 @@ export default class RepoList extends Component {
             title="Favoritas"
             onClick={() => this.saveRepo(favorite.full_name)}
           >
-            <i style={{color:"red"}}className="fas fa-heart" />
+          <i style={{color:"#666"}}className="fas fa-heart" />
           </button>
+          <a
+            title="Acessar"
+            href={favorite.html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link"
+          >
+            <i className="fas fa-anchor" />
+          </a>
         </Favorite>
       ))}
       </section>
-    </Container>
+    </Container> : null
   )}
 }
 

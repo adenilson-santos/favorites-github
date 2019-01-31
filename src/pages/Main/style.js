@@ -21,7 +21,7 @@ export const Container = styled.div`
       margin-right: 5px;
       color: #333;
       padding: 0 15px;
-      border: 0;
+      border: ${props => (props.errorStyle ? '10px solid red' : 0)}
     }
 
     button {

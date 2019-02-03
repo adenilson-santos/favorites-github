@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items:center;
-  margin-top: 20px;
+  align-items: center;
+  margin-top: 10px;
   flex-wrap: wrap;
 
   section {
@@ -12,25 +12,48 @@ export const Container = styled.div`
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
+    max-width: 1200px;
   }
 
   .head {
     display: flex;
     flex-direction: row;
-    justify-content:center;
+    justify-content: center;
+    align-items: center;
     padding: 10px;
     max-width: 90%;
     background: white;
     border-radius: 3px;
     flex-wrap: wrap;
+    margin: 5px;
 
     img {
       max-width: 80px;
       max-height: 80px;
-      margin-right: 10px;
     }
 
-    div{
+    aside {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5px;
+
+        p {
+          color: rgb(92, 119, 206);
+        }
+
+        small {
+          margin-left: 5px;
+        }
+      }
+    }
+
+    div {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -40,12 +63,6 @@ export const Container = styled.div`
       small {
         color: #666;
       }
-    }
-
-    .user_info {
-      background: rgb(240, 243, 247);
-      padding: 5px;
-      border-radius: 3px;
     }
   }
 `;
@@ -73,10 +90,6 @@ export const Favorite = styled.div`
     align-items: center;
     margin-bottom: 20px;
     flex-wrap: wrap;
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
-    hyphens: auto;
     padding: 0 20px;
   }
 
@@ -102,7 +115,7 @@ export const Favorite = styled.div`
     }
   }
 
-  button{
+  button {
     position: absolute;
     width: 30px;
     height: 30px;

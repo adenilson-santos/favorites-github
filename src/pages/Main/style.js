@@ -1,19 +1,21 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  /* background:black; */
   align-items: center;
-  margin: 20px 0;
+  /* margin: 10px 0; */
+
+  span {
+    margin-top: 10px;
+  }
 
   form {
     width: 100%;
     max-width: 450px;
-    display:flex;
-    margin: 10px;
+    display: flex;
 
     input {
       flex: 1;
@@ -21,7 +23,7 @@ export const Container = styled.div`
       margin-right: 5px;
       color: #333;
       padding: 0 15px;
-      border: ${props => (props.errorStyle ? '10px solid red' : 0)}
+      border: ${props => (props.inputError ? "2px dashed red" : 0)};
     }
 
     button {
@@ -31,5 +33,5 @@ export const Container = styled.div`
       color: white;
       border: 0;
     }
- }
+  }
 `;

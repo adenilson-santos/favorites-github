@@ -16,7 +16,8 @@ export default class Main extends React.Component {
     repositories: [],
     user: null,
     reposLenght: 0,
-    loading: false
+    loading: false,
+    pageCount: 0
   };
 
   // usar depois
@@ -40,7 +41,11 @@ export default class Main extends React.Component {
       const { data: user } = await api(`/users/${inputUser}`);
 
       this.notify(user.public_repos, user.name);
-      this.setState({ repositories: repos ? repos : [], user: user });
+      this.setState({
+        repositories: repos ? repos : [],
+        user: user,
+        pageCount: user.public_repos / 30
+      });
 
       // console.log(repos)
       // repos.map(res => console.log(res))

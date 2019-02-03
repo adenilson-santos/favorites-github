@@ -11,24 +11,18 @@ import { Container, Favorite } from "./style";
 moment.locale("pt-br");
 
 class Favorites extends Component {
-  state = {
-    favorites: []
-  };
 
   componentDidMount() {
     const repos = JSON.parse(localStorage.getItem("@myrepos:Favorites")) || [];
     this.setState({ favorites: repos });
   }
 
-  handleDelete = name => {
+  handleDelete = async name => {
     this.notifyDelete(name);
-    const newRepos = this.state.favorites.filter(
-      favorite => favorite.full_name !== name
-    );
 
-    this.setState({ favorites: newRepos }, () =>
-      localStorage.setItem("@myrepos:Favorites", JSON.stringify(newRepos))
-    );
+    await this.props.rmFavorite(name);
+    
+    localStorage.setItem("@myrepos:Favorites", JSON.stringify(this.props.favorites));
   };
 
   handleUpdate = async id => {
@@ -42,30 +36,22 @@ class Favorites extends Component {
 
     const { data: repository } = await api(`/repos/${full_name}`);
 
-    this.setState(
-      {
-        favorites: this.state.favorites.map(repo =>
-          repo.id === id ? repository : repo
-        )
-      },
-      () =>
+      await this.props.upFavorite(id,repository);
+
         localStorage.setItem(
           "@myrepos:Favorites",
-          JSON.stringify(this.state.favorites)
-        )
-    );
+          JSON.stringify(this.props.favorites));
   };
 
   notifyDelete = repo => toast.error(repo + " excluído com sucesso!");
   notifyUpdate = repo => toast.info(repo + " atualizado!");
 
   render() {
-    const { favorites } = this.state;
 
     return (
       <Container>
         <ToastContainer />
-        {favorites.map(favorite => (
+        {this.props.favorites.map(favorite => (
           <Favorite key={favorite.id}>
             <header>
               <img src={favorite.owner.avatar_url} alt={favorite.name} />
@@ -121,9 +107,16 @@ class Favorites extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  addFavorite: repository =>
-    dispatch({ type: "ADD_FAVORITE", payload: { repository } })
+const mapStateToProps = state => ({
+  favorites: state.favorites
 });
 
-export default connect(mapDispatchToProps)(Favorites);
+const mapDispatchToProps = dispatch => ({
+  rmFavorite: name => dispatch({ type: "RM_FAVORITE", payload: { name } }),
+  upFavorite: (id,repository) => dispatch({ type: "UP_FAVORITE", payload: { id, repository } })
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Favorites);

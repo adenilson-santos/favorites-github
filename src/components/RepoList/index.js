@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
+import { connect } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -7,7 +8,7 @@ import { Container, Favorite } from "./style";
 
 moment.locale("pt-br");
 
-export default class RepoList extends Component {
+class RepoList extends Component {
   state = {
     favorites: []
     // myFavorites: JSON.parse(localStorage.getItem('@myrepos:Favorites'))
@@ -22,16 +23,16 @@ export default class RepoList extends Component {
     });
   }
 
-  saveRepo = repository => {
+  saveRepo = async repository => {
     const [, newName] = repository.full_name.split("/");
     this.notifyFavorite(newName);
-    this.setState({ favorites: [...this.state.favorites, repository] }, () =>
-      localStorage.setItem(
-        "@myrepos:Favorites",
-        JSON.stringify(this.state.favorites)
-      )
+
+    await this.props.addFavorite(repository);
+
+    localStorage.setItem(
+      "@myrepos:Favorites",
+      JSON.stringify(this.props.favorites)
     );
-    console.log(repository);
   };
 
   render() {
@@ -47,53 +48,59 @@ export default class RepoList extends Component {
               <div>
                 <strong>{user.login}</strong>
                 <small>{user.html_url}</small>
+                {user.following || user.followers ? (
                 <div>
-                  <p><small>Following {user.following}</small>  <small>Followers {user.followers}</small>  </p>
-                </div> 
+                  <p>
+                    <small>Following {user.following}</small>{" "}
+                    <small>Followers {user.followers}</small>{" "}
+                  </p>
+                </div>
+
+                ) : null}
               </div>
             </aside>
           </header>
           {user.company || user.location || user.blog ? (
-              <header className="head">
-                <aside>
-                  <div>
-                    {user.company ? (
-                      <span>
-                        <p>
-                          <i className="fas fa-building" />
-                        </p>
-                        <small>{user.company}</small>
-                      </span>
-                    ) : null}
+            <header className="head">
+              <aside>
+                <div>
+                  {user.company ? (
+                    <span>
+                      <p>
+                        <i className="fas fa-building" />
+                      </p>
+                      <small>{user.company}</small>
+                    </span>
+                  ) : null}
 
-                    {user.location ? (
-                      <span>
-                        <p>
-                          <i className="fas fa-map-marked" />
-                        </p>
-                        <small>{user.location}</small>
-                      </span>
-                    ) : null}
-                    {user.blog ? (
-                      <span>
-                        <p>
-                          <i className="fas fa-blog" />
-                        </p>
-                        <small>{user.blog}</small>
-                      </span>
-                    ) : null}
-                  </div>
-                </aside>
-              </header>
+                  {user.location ? (
+                    <span>
+                      <p>
+                        <i className="fas fa-map-marked" />
+                      </p>
+                      <small>{user.location}</small>
+                    </span>
+                  ) : null}
+                  {user.blog ? (
+                    <span>
+                      <p>
+                        <i className="fas fa-blog" />
+                      </p>
+                      <small>{user.blog}</small>
+                    </span>
+                  ) : null}
+                </div>
+              </aside>
+            </header>
           ) : null}
-          {user.bio ?(
-              <header className="head">
-                <aside>
-                  <div>
-                    <small>{user.bio}</small>
-                  </div>
-                </aside>
-              </header>
+          {user.bio ? (
+            <header className="head">
+              <aside>
+                <div>
+                  <small>{user.bio}</small>
+                </div>
+              </aside>
+            </header>
           ) : null}
         </section>
         <section>
@@ -139,6 +146,21 @@ export default class RepoList extends Component {
           ))}
         </section>
       </Container>
+      
     ) : null;
   }
 }
+
+const mapStateToProps = state => ({
+  favorites: state.favorites
+});
+
+const mapDispatchToProps = dispatch => ({
+  addFavorite: repository =>
+    dispatch({ type: "ADD_FAVORITE", payload: { repository } })
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RepoList);

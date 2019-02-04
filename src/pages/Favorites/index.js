@@ -12,7 +12,7 @@ moment.locale("pt-br");
 
 class Favorites extends Component {
   componentDidMount() {
-    const repos = JSON.parse(localStorage.getItem("@myrepos:Favorites")) || [];
+    const repos = this.props.favorites || [];
     this.setState({ favorites: repos });
   }
 
@@ -28,9 +28,7 @@ class Favorites extends Component {
   };
 
   handleUpdate = async id => {
-    const [{ full_name }] = JSON.parse(
-      localStorage.getItem("@myrepos:Favorites")
-    ).filter(repo => repo.id === id);
+    const [{ full_name }] = this.props.favorites.filter(repo => repo.id === id);
 
     const [, name] = full_name.split("/");
 

@@ -1,12 +1,18 @@
 .pagination {
   list-style: none;
   display: flex;
+  flex-direction: column;
   border-radius: 2px;
   padding: 5px;
+  position: fixed;
+  bottom: 40px;
+  right: 0px;
 }
 
 .pagination li {
-  margin-right: 5px;
+  background: rgb(92, 119, 206);
+  color: white;
+  margin-top: 5px;
   padding: 5px;
   color: #666;
   border-radius: 2px;
@@ -17,8 +23,14 @@
   justify-content: center;
   align-items: center;
   font-weight: 800;
+  cursor: pointer;
 }
 
-.pagination li:last-child {
-  margin-right: 0px;
+.pagination li:first-child {
+  margin-top: 0px;
+}
+
+.pagination .active {
+  background: rgb(92, 119, 206);
+  color: white;
 }

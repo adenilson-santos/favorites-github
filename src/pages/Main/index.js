@@ -20,7 +20,8 @@ export default class Main extends React.Component {
     user: null,
     reposLenght: 0,
     loading: false,
-    pageCount: 0
+    pageCount: 0,
+    currentPage: 1,
   };
 
   // usar depois

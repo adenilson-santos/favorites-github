@@ -24,12 +24,12 @@ class RepoList extends Component {
 
   componentDidMount() {
     this.setState({
-      favorites: getLocalStorage() || []
+      favorites: this.props.favorites || []
     });
   }
 
   saveRepo = async repository => {
-    const duplicatedRepo = getLocalStorage().find(
+    const duplicatedRepo = this.props.favorites.find(
       repo => repo.full_name === repository.full_name
     );
 
@@ -46,7 +46,7 @@ class RepoList extends Component {
     }
 
     const [, newName] = repository.full_name.split("/");
-    this.notifyFavorite(newName);
+    // this.notifyFavorite(newName);
 
     await this.props.addFavorite(repository);
 
@@ -151,7 +151,7 @@ class RepoList extends Component {
                 </li>
               </ul>
               <button title="Favorite" onClick={() => this.saveRepo(favorite)}>
-                {getLocalStorage().find(repo => repo.id === favorite.id) ? (
+                {this.props.favorites.find(repo => repo.id === favorite.id) ? (
                   <i style={{ color: "red" }} className="fas fa-heart" />
                 ) : (
                   <i style={{ color: "#666" }} className="fas fa-heart" />

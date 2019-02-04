@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import ReactPaginate from "react-paginate";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -7,10 +8,12 @@ import api from "../../services/api";
 import RepoList from "../../components/RepoList";
 
 import { Container } from "./style";
+import "./style.css";
 
 export default class Main extends React.Component {
   state = {
     inputUser: "",
+    lastInputUser: "",
     error: false,
     errorStyle: false,
     repositories: [],
@@ -62,6 +65,25 @@ export default class Main extends React.Component {
     }
   };
 
+  handlePageClick = async data => {
+    const { lastInputUser } = this.state;
+
+    let selected = data.selected + 1;
+
+    const { data: repos } = await api(
+      `/users/${lastInputUser}/repos?page=${selected}`
+    );
+    const { data: user } = await api(`/users/${lastInputUser}`);
+
+    console.log("page: ", selected);
+
+    this.setState({
+      repositories: repos ? repos : [],
+      user: user,
+      pageCount: user.public_repos / 30
+    });
+  };
+
   render() {
     const { inputUser, user, error, repositories, loading } = this.state;
 
@@ -72,7 +94,10 @@ export default class Main extends React.Component {
           <form onSubmit={this.handleUser}>
             <input
               onChange={e =>
-                this.setState({ inputUser: e.target.value.trim() })
+                this.setState({
+                  inputUser: e.target.value.trim(),
+                  lastInputUser: e.target.value.trim()
+                })
               }
               value={inputUser}
               placeholder="Type a name of user."
@@ -91,6 +116,19 @@ export default class Main extends React.Component {
           <span>{error ? error : null}</span>
         </Container>
         <RepoList repos={repositories} user={user} />
+        <ReactPaginate
+          previousLabel={"<<"}
+          nextLabel={">>"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={this.state.pageCount}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={3}
+          onPageChange={this.handlePageClick}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
+        />
       </Fragment>
     );
   }

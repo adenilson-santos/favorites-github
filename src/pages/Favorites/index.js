@@ -11,7 +11,6 @@ import { Container, Favorite } from "./style";
 moment.locale("pt-br");
 
 class Favorites extends Component {
-
   componentDidMount() {
     const repos = JSON.parse(localStorage.getItem("@myrepos:Favorites")) || [];
     this.setState({ favorites: repos });
@@ -21,8 +20,11 @@ class Favorites extends Component {
     this.notifyDelete(name);
 
     await this.props.rmFavorite(name);
-    
-    localStorage.setItem("@myrepos:Favorites", JSON.stringify(this.props.favorites));
+
+    localStorage.setItem(
+      "@myrepos:Favorites",
+      JSON.stringify(this.props.favorites)
+    );
   };
 
   handleUpdate = async id => {
@@ -36,18 +38,18 @@ class Favorites extends Component {
 
     const { data: repository } = await api(`/repos/${full_name}`);
 
-      await this.props.upFavorite(id,repository);
+    await this.props.upFavorite(id, repository);
 
-        localStorage.setItem(
-          "@myrepos:Favorites",
-          JSON.stringify(this.props.favorites));
+    localStorage.setItem(
+      "@myrepos:Favorites",
+      JSON.stringify(this.props.favorites)
+    );
   };
 
-  notifyDelete = repo => toast.error(repo + " excluído com sucesso!");
+  notifyDelete = repo => toast.warn(repo + " excluído com sucesso!");
   notifyUpdate = repo => toast.info(repo + " atualizado!");
 
   render() {
-
     return (
       <Container>
         <ToastContainer />
@@ -113,7 +115,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   rmFavorite: name => dispatch({ type: "RM_FAVORITE", payload: { name } }),
-  upFavorite: (id,repository) => dispatch({ type: "UP_FAVORITE", payload: { id, repository } })
+  upFavorite: (id, repository) =>
+    dispatch({ type: "UP_FAVORITE", payload: { id, repository } })
 });
 
 export default connect(

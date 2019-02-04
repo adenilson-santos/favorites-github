@@ -8,22 +8,43 @@ import { Container, Favorite } from "./style";
 
 moment.locale("pt-br");
 
+const getLocalStorage = () =>
+  JSON.parse(localStorage.getItem("@myrepos:Favorites"));
+
 class RepoList extends Component {
   state = {
     favorites: []
     // myFavorites: JSON.parse(localStorage.getItem('@myrepos:Favorites'))
   };
 
-  notifyFavorite = repository =>
-    toast.success(`${repository} adicionado aos seus favoritos.`);
+  notifyFavorite = name =>
+    toast.success(`${name} adicionado aos seus favoritos.`);
+
+  // notifyError = () => toast.info(`Repository already exist on your favorites.`);
 
   componentDidMount() {
     this.setState({
-      favorites: JSON.parse(localStorage.getItem("@myrepos:Favorites")) || []
+      favorites: getLocalStorage() || []
     });
   }
 
   saveRepo = async repository => {
+    const duplicatedRepo = getLocalStorage().find(
+      repo => repo.full_name === repository.full_name
+    );
+
+    if (duplicatedRepo) {
+
+      await this.props.rmFavorite(repository.full_name);
+      
+      localStorage.setItem(
+        "@myrepos:Favorites",
+        JSON.stringify(this.props.favorites)
+      );
+      return;
+      // return this.notifyError();
+    }
+
     const [, newName] = repository.full_name.split("/");
     this.notifyFavorite(newName);
 
@@ -49,13 +70,12 @@ class RepoList extends Component {
                 <strong>{user.login}</strong>
                 <small>{user.html_url}</small>
                 {user.following || user.followers ? (
-                <div>
-                  <p>
-                    <small>Following {user.following}</small>{" "}
-                    <small>Followers {user.followers}</small>{" "}
-                  </p>
-                </div>
-
+                  <div>
+                    <p>
+                      <small>Following {user.following}</small>{" "}
+                      <small>Followers {user.followers}</small>{" "}
+                    </p>
+                  </div>
                 ) : null}
               </div>
             </aside>
@@ -130,8 +150,12 @@ class RepoList extends Component {
                   {favorite.language} <small>language</small>
                 </li>
               </ul>
-              <button title="Favoritas" onClick={() => this.saveRepo(favorite)}>
-                <i style={{ color: "#666" }} className="fas fa-heart" />
+              <button title="Favorite" onClick={() => this.saveRepo(favorite)}>
+                {getLocalStorage().find(repo => repo.id === favorite.id) ? (
+                  <i style={{ color: "red" }} className="fas fa-heart" />
+                ) : (
+                  <i style={{ color: "#666" }} className="fas fa-heart" />
+                )}
               </button>
               <a
                 title="Acessar"
@@ -146,7 +170,6 @@ class RepoList extends Component {
           ))}
         </section>
       </Container>
-      
     ) : null;
   }
 }
@@ -156,6 +179,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  rmFavorite: name => dispatch({ type: "RM_FAVORITE", payload: { name } }),
   addFavorite: repository =>
     dispatch({ type: "ADD_FAVORITE", payload: { repository } })
 });

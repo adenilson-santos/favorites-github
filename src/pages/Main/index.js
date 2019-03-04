@@ -56,7 +56,7 @@ export default class Main extends React.Component {
     } catch (err) {
       if (err.response && err.response.status === 404)
         return this.setState({
-          error: "Usuário não existe.",
+          error: "User not found.",
           errorStyle: true
         });
 

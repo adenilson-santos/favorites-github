@@ -23,7 +23,7 @@ export const Container = styled.div`
       margin-right: 5px;
       color: #333;
       padding: 0 15px;
-      border: ${props => (props.inputError ? "2px dashed red" : 0)};
+      border: ${props => (props.inputError ? "2px solid red" : 0)};
     }
 
     button {

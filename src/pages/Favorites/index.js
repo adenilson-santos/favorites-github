@@ -32,7 +32,7 @@ class Favorites extends Component {
 
     const [, name] = full_name.split("/");
 
-    this.notifyUpdate(name);
+    this.notifyUpdate(full_name);
 
     const { data: repository } = await api(`/repos/${full_name}`);
 

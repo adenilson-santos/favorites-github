@@ -19,7 +19,7 @@ const App = () => (
       <Nav />
       <Switch>
         <Route exact path="/" component={Main} />
-        <Route exact path="/fv" component={Favorites} />
+        <Route exact path="/favorites" component={Favorites} />
       </Switch>
       <Footer />
     </Provider>
